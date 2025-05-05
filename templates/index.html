@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогнозирование диабета</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Прогнозирование диабета</h1>
+        
+        <form id="diabetes-form">
+            <!-- Поле для имени пациента -->
+            <div class="form-group patient-info">
+                <label for="patientName">Имя пациента:</label>
+                <input type="text" id="patientName" name="patientName" required placeholder="Введите имя пациента">
+            </div>
+            
+            <!-- Важные поля (10 основных признаков) -->
+            <div class="important-fields">
+                <h2>Основные факторы риска</h2>
+                <div class="form-group">
+                    <label for="HighBP">Высокое артериальное давление:</label>
+                    <select id="HighBP" name="HighBP" required>
+                        <option value="0" selected>Нет высокого АД</option>
+                        <option value="1">Есть высокое АД</option>
+                    </select>
+                    <span class="importance-badge high">Высокая важность</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="HighChol">Высокий уровень холестерина:</label>
+                    <select id="HighChol" name="HighChol" required>
+                        <option value="0" selected>Нет высокого уровня холестерина</option>
+                        <option value="1">Есть высокий уровень холестерина</option>
+                    </select>
+                    <span class="importance-badge high">Высокая важность</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="BMI">Индекс массы тела (BMI):</label>
+                    <input type="number" step="0.01" id="BMI" name="BMI" value="25.0" min="10" max="100" required>
+                    <small>Введите ваш BMI (вес/рост²). Норма: 18.5-24.9</small>
+                    <span class="importance-badge high">Высокая важность</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="HeartDiseaseorAttack">Болезнь сердца или инфаркт:</label>
+                    <select id="HeartDiseaseorAttack" name="HeartDiseaseorAttack" required>
+                        <option value="0" selected>Нет</option>
+                        <option value="1">Да</option>
+                    </select>
+                    <span class="importance-badge medium">Средняя важность</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="HvyAlcoholConsump">Частое употребление алкоголя:</label>
+                    <select id="HvyAlcoholConsump" name="HvyAlcoholConsump" required>
+                        <option value="0" selected>Нет</option>
+                        <option value="1">Да</option>
+                    </select>
+                    <small>(мужчины ≥14 напитков/неделя, женщины ≥7 напитков/неделя)</small>
+                    <span class="importance-badge low">Низкая важность</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="GenHlth">Общее состояние здоровья (шкала 1–5):</label>
+                    <select id="GenHlth" name="GenHlth" required>
+                        <option value="1">Отлично</option>
+                        <option value="2">Очень хорошо</option>
+                        <option value="3" selected>Хорошо</option>
+                        <option value="4">Удовлетворительно</option>
+                        <option value="5">Плохо</option>
+                    </select>
+                    <span class="importance-badge high">Высокая важность</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="DiffWalk">Трудности с ходьбой:</label>
+                    <select id="DiffWalk" name="DiffWalk" required>
+                        <option value="0" selected>Нет</option>
+                        <option value="1">Да</option>
+                    </select>
+                    <span class="importance-badge medium">Средняя важность</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="Sex">Пол:</label>
+                    <select id="Sex" name="Sex" required>
+                        <option value="0" selected>Женщина</option>
+                        <option value="1">Мужчина</option>
+                    </select>
+                    <span class="importance-badge low">Низкая важность</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="Age">Возрастная категория:</label>
+                    <select id="Age" name="Age" required>
+                        <option value="1">18-24 года</option>
+                        <option value="2">25-29 лет</option>
+                        <option value="3">30-34 года</option>
+                        <option value="4">35-39 лет</option>
+                        <option value="5">40-44 года</option>
+                        <option value="6">45-49 лет</option>
+                        <option value="7">50-54 года</option>
+                        <option value="8">55-59 лет</option>
+                        <option value="9" selected>60-64 года</option>
+                        <option value="10">65-69 лет</option>
+                        <option value="11">70-74 года</option>
+                        <option value="12">75-79 лет</option>
+                        <option value="13">80+ лет</option>
+                    </select>
+                    <span class="importance-badge medium">Средняя важность</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="Income">Доход (шкала 1–8):</label>
+                    <select id="Income" name="Income" required>
+                        <option value="1">Менее $10,000</option>
+                        <option value="2">$10,000 - $15,000</option>
+                        <option value="3">$15,000 - $20,000</option>
+                        <option value="4">$20,000 - $25,000</option>
+                        <option value="5" selected>$25,000 - $35,000</option>
+                        <option value="6">$35,000 - $50,000</option>
+                        <option value="7">$50,000 - $75,000</option>
+                        <option value="8">$75,000 и больше</option>
+                    </select>
+                    <span class="importance-badge low">Низкая важность</span>
+                </div>
+            </div>
+
+            <!-- Дополнительные поля (менее важные признаки) -->
+            <div class="additional-fields">
+                <h2>Дополнительные факторы</h2>
+                <p class="info-text">Эти факторы имеют меньшее влияние на предсказание диабета, но могут быть учтены для более полной оценки</p>
+                
+                <div class="form-group">
+                    <label for="Smoker">Курение (выкурили хотя бы 100 сигарет за всю жизнь?):</label>
+                    <select id="Smoker" name="Smoker" required>
+                        <option value="0" selected>Нет</option>
+                        <option value="1">Да</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Stroke">Инсульт:</label>
+                    <select id="Stroke" name="Stroke" required>
+                        <option value="0" selected>Нет</option>
+                        <option value="1">Да</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="PhysActivity">Физическая активность за последние 30 дней:</label>
+                    <select id="PhysActivity" name="PhysActivity" required>
+                        <option value="0" selected>Нет</option>
+                        <option value="1">Да</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Fruits">Употребляете фрукты 1 или более раз в день:</label>
+                    <select id="Fruits" name="Fruits" required>
+                        <option value="0" selected>Нет</option>
+                        <option value="1">Да</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Veggies">Употребляете овощи 1 или более раз в день:</label>
+                    <select id="Veggies" name="Veggies" required>
+                        <option value="0" selected>Нет</option>
+                        <option value="1">Да</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="AnyHealthcare">Медицинская страховка:</label>
+                    <select id="AnyHealthcare" name="AnyHealthcare" required>
+                        <option value="0" selected>Нет</option>
+                        <option value="1">Да</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="NoDocbcCost">Отсутствие врача из-за стоимости:</label>
+                    <select id="NoDocbcCost" name="NoDocbcCost" required>
+                        <option value="0" selected>Нет</option>
+                        <option value="1">Да</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="MentHlth">Количество дней плохого психического здоровья за последние 30 дней:</label>
+                    <input type="number" id="MentHlth" name="MentHlth" value="0" min="0" max="30" required>
+                    <small>Шкала от 0 до 30 дней</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="PhysHlth">Количество дней плохого физического здоровья за последние 30 дней:</label>
+                    <input type="number" id="PhysHlth" name="PhysHlth" value="0" min="0" max="30" required>
+                    <small>Шкала от 0 до 30 дней</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="Education">Уровень образования (шкала 1–6):</label>
+                    <select id="Education" name="Education" required>
+                        <option value="1">Никогда не учился</option>
+                        <option value="2">Начальная школа</option>
+                        <option value="3">Средняя школа</option>
+                        <option value="4" selected>Колледж</option>
+                        <option value="5">Высшее образование</option>
+                        <option value="6">Постдипломное образование</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Кнопки -->
+            <div class="form-buttons">
+                <button type="button" class="toggle-button" id="toggle-fields">Показать дополнительные факторы</button>
+                <button type="submit" class="predict-button">Предсказать</button>
+            </div>
+        </form>
+
+        <!-- Блок для отображения результата -->
+        <div class="result" id="result"></div>
+
+        <!-- График вероятности диабета -->
+        <div id="risk-bar-container" style="display: none;">
+            <label>График вероятности диабета:</label>
+            <div style="width: 100%; background-color: #ddd; border-radius: 5px;">
+                <div id="risk-bar"
+                    style="height: 24px; width: 0%; background-color: green; text-align: center; color: white; border-radius: 5px;">
+                    0%
+                </div>
+            </div>
+        </div>
+
+        <!-- Первая строка графиков -->
+        <div class="charts-row">
+            <div class="chart-item">
+                <canvas id="donut-chart"></canvas>
+            </div>
+            <div class="chart-item">
+                <canvas id="risk-meter"></canvas>
+            </div>
+        </div>
+
+        <!-- Вторая строка графиков -->
+        <div class="radar-chart-container">
+            <canvas id="radar-chart"></canvas>
+        </div>
+    </div>
+
+    <!-- Подключение внешнего JavaScript-файла -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

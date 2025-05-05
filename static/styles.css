@@ -1,0 +1,401 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f9f9f9;
+}
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+/* Поле с данными пациента */
+.patient-info {
+    padding: 15px;
+    background-color: #e8f4fc;
+    border-radius: 8px;
+    border-left: 4px solid #17a2b8;
+    margin-bottom: 20px;
+}
+
+.patient-info input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Важные поля (основные факторы) */
+.important-fields {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f0f7ff;
+    border-radius: 8px;
+    border-left: 4px solid #28a745;
+}
+
+/* Дополнительные поля */
+.additional-fields {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+/* Группа формы */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Информационный текст */
+.info-text {
+    color: #6c757d;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+/* Кнопки формы */
+.form-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+label {
+    display: block;
+    margin-top: 5px;
+    font-weight: bold;
+}
+input[type="number"], select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+}
+button:hover {
+    opacity: 0.9;
+}
+
+/* Стили для кнопок */
+.toggle-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.predict-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-grow: 1;
+    font-size: 16px;
+}
+
+.toggle-button:hover {
+    background-color: #5a6268;
+}
+
+.predict-button:hover {
+    background-color: #218838;
+}
+
+/* Результат */
+.result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    font-weight: normal;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.result.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 10px;
+}
+
+.result-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.prediction-badge {
+    background-color: rgba(0,0,0,0.1);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.result-details p {
+    margin: 10px 0;
+    line-height: 1.5;
+}
+
+.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+small {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #666;
+}
+
+canvas {
+    margin-top: 20px;
+    max-width: 100%;
+    height: auto;
+}
+
+#risk-bar-container {
+    margin-top: 20px;
+}
+
+#risk-bar {
+    height: 24px;
+    width: 0%;
+    text-align: center;
+    color: white;
+    border-radius: 5px;
+    transition: width 0.5s ease-in-out;
+}
+
+/* Обертка для первой строки графиков */
+.charts-row {
+    display: flex;
+    gap: 20px; /* Расстояние между графиками */
+    margin-top: 20px;
+}
+
+/* Контейнер для каждого графика в первой строке */
+.chart-item {
+    flex: 1; /* Равномерное распределение ширины */
+    max-width: 50%; /* Максимальная ширина каждого графика */
+}
+
+#donut-chart {
+    height: 150px;
+}
+
+#risk-meter {
+    height: 100px;
+}
+
+/* Контейнер для радарной диаграммы */
+.radar-chart-container {
+    margin-top: 20px;
+    max-width: 100%;
+}
+
+#radar-chart {
+    height: 300px; /* Больший размер для радарной диаграммы */
+}
+
+/* Медиа-запросы для адаптивного дизайна */
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;
+        padding: 15px;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    
+    .charts-row {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .chart-item {
+        max-width: 100%;
+    }
+    
+    .form-buttons {
+        flex-direction: column;
+    }
+    
+    .toggle-button, .predict-button {
+        width: 100%;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    #radar-chart {
+        height: 250px;
+    }
+}
+
+/* Плавные переходы для всех элементов */
+.container, .form-group, button, input, select, .result, .additional-fields {
+    transition: all 0.3s ease;
+}
+
+/* Информационная панель */
+.info-panel {
+    background-color: #e8f4fc;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+    border-left: 4px solid #17a2b8;
+}
+
+.info-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #17a2b8;
+    color: white;
+    text-align: center;
+    line-height: 24px;
+    font-weight: bold;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.info-content h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #17a2b8;
+    font-size: 1.1rem;
+}
+
+.info-content p {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Бейджи важности */
+.importance-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    border-radius: 12px;
+    padding: 2px 8px;
+    margin-left: 10px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.importance-badge.high {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.importance-badge.medium {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.importance-badge.low {
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+/* Индикатор загрузки */
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: #007bff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Стили для сообщений об ошибках */
+.error-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+}
+
+.error-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.error-title {
+    margin: 0 0 5px 0;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.error-message {
+    margin: 0;
+    font-size: 0.9rem;
+}
